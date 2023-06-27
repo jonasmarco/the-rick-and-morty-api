@@ -54,9 +54,9 @@ const CharacterList = () => {
       </Box>
       <Box mt={4} mb={4}>
         <Grid container spacing={2}>
-          {characters.map((character, index) => (
+          {characters.map((character) => (
             <Grid item key={character.id} xs={12} sm={6} md={6}>
-              <CharacterCard key={index} {...character} />
+              <CharacterCard {...character} />
             </Grid>
           ))}
         </Grid>

@@ -47,12 +47,6 @@ export interface Location {
   created: string
 }
 
-export type SearchResults = {
-  characters: Character[]
-  episodes: Episode[]
-  locations: Location[]
-}
-
 export async function getFeaturedCharacters(): Promise<Character[]> {
   try {
     const response = await axios.get(`${BASE_URL}/character?page=1`)
@@ -149,25 +143,32 @@ export async function getLocationById(
   }
 }
 
-export async function search(query: string): Promise<SearchResults> {
+export async function searchCharacters(query: string): Promise<Character[]> {
   try {
-    const characterResponse = await axios.get(
-      `${BASE_URL}/character/?name=${query}`
-    )
-    const episodeResponse = await axios.get(
-      `${BASE_URL}/episode/?name=${query}`
-    )
-    const locationResponse = await axios.get(
-      `${BASE_URL}/location/?name=${query}`
-    )
-
-    return {
-      characters: characterResponse.data.results,
-      episodes: episodeResponse.data.results,
-      locations: locationResponse.data.results,
-    }
+    const response = await axios.get(`${BASE_URL}/character/?name=${query}`)
+    return response.data.results
   } catch (error) {
-    console.error('Failed to perform search:', error)
-    return { characters: [], episodes: [], locations: [] }
+    console.error('Failed to search characters:', error)
+    return []
+  }
+}
+
+export async function searchEpisodes(query: string): Promise<Episode[]> {
+  try {
+    const response = await axios.get(`${BASE_URL}/episode/?name=${query}`)
+    return response.data.results
+  } catch (error) {
+    console.error('Failed to search episodes:', error)
+    return []
+  }
+}
+
+export async function searchLocations(query: string): Promise<Location[]> {
+  try {
+    const response = await axios.get(`${BASE_URL}/location/?name=${query}`)
+    return response.data.results
+  } catch (error) {
+    console.error('Failed to search locations:', error)
+    return []
   }
 }

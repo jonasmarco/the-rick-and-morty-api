@@ -11,8 +11,9 @@ import {
   Character,
   Episode,
   Location,
-  SearchResults,
-  search,
+  searchCharacters,
+  searchEpisodes,
+  searchLocations
 } from '../services/rickAndMortyServices'
 import { useSearchParams } from 'next/navigation'
 
@@ -20,7 +21,9 @@ const SearchPage = () => {
   const searchParams = useSearchParams()
 
   const [query, setQuery] = React.useState('')
-  const [results, setResults] = React.useState<SearchResults | null>(null)
+  const [characters, setCharacters] = React.useState<Character[]>([])
+  const [episodes, setEpisodes] = React.useState<Episode[]>([])
+  const [locations, setLocations] = React.useState<Location[]>([])
   const [loading, setLoading] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
 
@@ -37,9 +40,13 @@ const SearchPage = () => {
       setLoading(true)
       setError(null)
       try {
-        const response = await search(query)
+        const characterResponse = await searchCharacters(query)
+        const episodeResponse = await searchEpisodes(query)
+        const locationResponse = await searchLocations(query)
 
-        setResults(response)
+        setCharacters(characterResponse)
+        setEpisodes(episodeResponse)
+        setLocations(locationResponse)
       } catch (err) {
         setError(`Nothing found with search "${query}". Please try again.`)
       } finally {
@@ -73,48 +80,48 @@ const SearchPage = () => {
           <Typography variant="subtitle1">
             Characters found with search: {query}
           </Typography>
-          {results?.characters.length ? (
+          {characters.length ? (
             <Grid container spacing={2}>
-              {results?.characters.map((character: Character) => (
+              {characters.map((character: Character) => (
                 <Grid item key={character.id} xs={12} sm={6} md={6}>
                   <CharacterCard {...character} />
                 </Grid>
               ))}
             </Grid>
           ) : (
-            <Typography variant="subtitle1">No characters found.</Typography>
+            <Typography variant="subtitle1">No characters found with search: {query}</Typography>
           )}
         </Box>
         <Box mt={4} mb={4}>
           <Typography variant="subtitle1">
             Episodes found with search: {query}
           </Typography>
-          {results?.episodes.length ? (
+          {episodes.length ? (
             <Grid container spacing={2}>
-              {results?.episodes.map((episode: Episode) => (
+              {episodes.map((episode: Episode) => (
                 <Grid item key={episode.id} xs={12} sm={6} md={3}>
                   <EpisodeCard {...episode} />
                 </Grid>
               ))}
             </Grid>
           ) : (
-            <Typography variant="subtitle1">No episodes found.</Typography>
+            <Typography variant="subtitle1">No episodes found with search: {query}</Typography>
           )}
         </Box>
         <Box mt={4} mb={4}>
           <Typography variant="subtitle1">
             Locations found with search: {query}
           </Typography>
-          {results?.locations.length ? (
+          {locations.length ? (
             <Grid container spacing={2}>
-              {results?.locations.map((location: Location) => (
+              {locations.map((location: Location) => (
                 <Grid item key={location.id} xs={12} sm={6} md={3}>
                   <LocationCard {...location} />
                 </Grid>
               ))}
             </Grid>
           ) : (
-            <Typography variant="subtitle1">No locations found.</Typography>
+            <Typography variant="subtitle1">No locations found with search: {query}</Typography>
           )}
         </Box>
       </section>

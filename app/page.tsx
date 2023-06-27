@@ -90,7 +90,7 @@ const Home = () => {
             <Grid container spacing={2}>
               {episodes.map((episode) => (
                 <Grid item key={episode.id} xs={12} sm={6} md={4}>
-                  <EpisodeCard key={episode.id} {...episode} />
+                  <EpisodeCard {...episode} />
                 </Grid>
               ))}
             </Grid>
@@ -108,7 +108,7 @@ const Home = () => {
             <Grid container spacing={2}>
               {locations.map((location) => (
                 <Grid item key={location.id} xs={12} sm={6} md={4}>
-                  <LocationCard key={location.id} {...location} />
+                  <LocationCard {...location} />
                 </Grid>
               ))}
             </Grid>

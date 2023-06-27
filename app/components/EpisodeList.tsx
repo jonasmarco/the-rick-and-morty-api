@@ -54,9 +54,9 @@ const EpisodeList = () => {
       </Box>
       <Box mt={4} mb={4}>
         <Grid container spacing={2}>
-          {episodes.map((episode, index) => (
+          {episodes.map((episode) => (
             <Grid item key={episode.id} xs={12} sm={6} md={3}>
-              <EpisodeCard key={index} {...episode} />
+              <EpisodeCard {...episode} />
             </Grid>
           ))}
         </Grid>

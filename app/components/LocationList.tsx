@@ -54,9 +54,9 @@ const LocationList = () => {
       </Box>
       <Box mt={4} mb={4}>
         <Grid container spacing={2}>
-          {locations.map((location, index) => (
+          {locations.map((location) => (
             <Grid item key={location.id} xs={12} sm={6} md={3}>
-              <LocationCard key={index} {...location} />
+              <LocationCard {...location} />
             </Grid>
           ))}
         </Grid>
